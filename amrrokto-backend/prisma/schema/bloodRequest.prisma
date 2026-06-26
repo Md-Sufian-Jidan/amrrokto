@@ -47,7 +47,7 @@ model RequestVerification {
   id String @id @default(uuid())
   requestId String
   verifiedBy String
-  verifiedAt DateTime
+  verifiedAt DateTime @default(now())
   notes String?
 
   request BloodRequest @relation(fields:[requestId], references:[id], onDelete:Cascade)

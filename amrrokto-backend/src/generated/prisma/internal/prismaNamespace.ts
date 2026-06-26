@@ -2206,6 +2206,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
+
+/**
+ * Reference to a field of type 'OrganizationType'
+ */
+export type EnumOrganizationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrganizationType'>
+    
+
+
+/**
+ * Reference to a field of type 'OrganizationType[]'
+ */
+export type ListEnumOrganizationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrganizationType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */

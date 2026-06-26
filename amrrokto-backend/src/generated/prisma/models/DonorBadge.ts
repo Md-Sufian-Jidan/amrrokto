@@ -174,6 +174,7 @@ export type DonorBadgeWhereInput = {
   donorId?: Prisma.StringFilter<"DonorBadge"> | string
   badgeId?: Prisma.StringFilter<"DonorBadge"> | string
   awardedAt?: Prisma.DateTimeFilter<"DonorBadge"> | Date | string
+  donor?: Prisma.XOR<Prisma.DonorProfileScalarRelationFilter, Prisma.DonorProfileWhereInput>
   badge?: Prisma.XOR<Prisma.BadgeScalarRelationFilter, Prisma.BadgeWhereInput>
 }
 
@@ -182,6 +183,7 @@ export type DonorBadgeOrderByWithRelationInput = {
   donorId?: Prisma.SortOrder
   badgeId?: Prisma.SortOrder
   awardedAt?: Prisma.SortOrder
+  donor?: Prisma.DonorProfileOrderByWithRelationInput
   badge?: Prisma.BadgeOrderByWithRelationInput
 }
 
@@ -194,6 +196,7 @@ export type DonorBadgeWhereUniqueInput = Prisma.AtLeast<{
   donorId?: Prisma.StringFilter<"DonorBadge"> | string
   badgeId?: Prisma.StringFilter<"DonorBadge"> | string
   awardedAt?: Prisma.DateTimeFilter<"DonorBadge"> | Date | string
+  donor?: Prisma.XOR<Prisma.DonorProfileScalarRelationFilter, Prisma.DonorProfileWhereInput>
   badge?: Prisma.XOR<Prisma.BadgeScalarRelationFilter, Prisma.BadgeWhereInput>
 }, "id" | "donorId_badgeId">
 
@@ -219,8 +222,8 @@ export type DonorBadgeScalarWhereWithAggregatesInput = {
 
 export type DonorBadgeCreateInput = {
   id?: string
-  donorId: string
   awardedAt?: Date | string
+  donor: Prisma.DonorProfileCreateNestedOneWithoutBadgesInput
   badge: Prisma.BadgeCreateNestedOneWithoutDonorsInput
 }
 
@@ -233,8 +236,8 @@ export type DonorBadgeUncheckedCreateInput = {
 
 export type DonorBadgeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  donorId?: Prisma.StringFieldUpdateOperationsInput | string
   awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donor?: Prisma.DonorProfileUpdateOneRequiredWithoutBadgesNestedInput
   badge?: Prisma.BadgeUpdateOneRequiredWithoutDonorsNestedInput
 }
 
@@ -254,7 +257,6 @@ export type DonorBadgeCreateManyInput = {
 
 export type DonorBadgeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  donorId?: Prisma.StringFieldUpdateOperationsInput | string
   awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -343,10 +345,52 @@ export type DonorBadgeUncheckedUpdateManyWithoutBadgeNestedInput = {
   deleteMany?: Prisma.DonorBadgeScalarWhereInput | Prisma.DonorBadgeScalarWhereInput[]
 }
 
+export type DonorBadgeCreateNestedManyWithoutDonorInput = {
+  create?: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput> | Prisma.DonorBadgeCreateWithoutDonorInput[] | Prisma.DonorBadgeUncheckedCreateWithoutDonorInput[]
+  connectOrCreate?: Prisma.DonorBadgeCreateOrConnectWithoutDonorInput | Prisma.DonorBadgeCreateOrConnectWithoutDonorInput[]
+  createMany?: Prisma.DonorBadgeCreateManyDonorInputEnvelope
+  connect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+}
+
+export type DonorBadgeUncheckedCreateNestedManyWithoutDonorInput = {
+  create?: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput> | Prisma.DonorBadgeCreateWithoutDonorInput[] | Prisma.DonorBadgeUncheckedCreateWithoutDonorInput[]
+  connectOrCreate?: Prisma.DonorBadgeCreateOrConnectWithoutDonorInput | Prisma.DonorBadgeCreateOrConnectWithoutDonorInput[]
+  createMany?: Prisma.DonorBadgeCreateManyDonorInputEnvelope
+  connect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+}
+
+export type DonorBadgeUpdateManyWithoutDonorNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput> | Prisma.DonorBadgeCreateWithoutDonorInput[] | Prisma.DonorBadgeUncheckedCreateWithoutDonorInput[]
+  connectOrCreate?: Prisma.DonorBadgeCreateOrConnectWithoutDonorInput | Prisma.DonorBadgeCreateOrConnectWithoutDonorInput[]
+  upsert?: Prisma.DonorBadgeUpsertWithWhereUniqueWithoutDonorInput | Prisma.DonorBadgeUpsertWithWhereUniqueWithoutDonorInput[]
+  createMany?: Prisma.DonorBadgeCreateManyDonorInputEnvelope
+  set?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  disconnect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  delete?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  connect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  update?: Prisma.DonorBadgeUpdateWithWhereUniqueWithoutDonorInput | Prisma.DonorBadgeUpdateWithWhereUniqueWithoutDonorInput[]
+  updateMany?: Prisma.DonorBadgeUpdateManyWithWhereWithoutDonorInput | Prisma.DonorBadgeUpdateManyWithWhereWithoutDonorInput[]
+  deleteMany?: Prisma.DonorBadgeScalarWhereInput | Prisma.DonorBadgeScalarWhereInput[]
+}
+
+export type DonorBadgeUncheckedUpdateManyWithoutDonorNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput> | Prisma.DonorBadgeCreateWithoutDonorInput[] | Prisma.DonorBadgeUncheckedCreateWithoutDonorInput[]
+  connectOrCreate?: Prisma.DonorBadgeCreateOrConnectWithoutDonorInput | Prisma.DonorBadgeCreateOrConnectWithoutDonorInput[]
+  upsert?: Prisma.DonorBadgeUpsertWithWhereUniqueWithoutDonorInput | Prisma.DonorBadgeUpsertWithWhereUniqueWithoutDonorInput[]
+  createMany?: Prisma.DonorBadgeCreateManyDonorInputEnvelope
+  set?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  disconnect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  delete?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  connect?: Prisma.DonorBadgeWhereUniqueInput | Prisma.DonorBadgeWhereUniqueInput[]
+  update?: Prisma.DonorBadgeUpdateWithWhereUniqueWithoutDonorInput | Prisma.DonorBadgeUpdateWithWhereUniqueWithoutDonorInput[]
+  updateMany?: Prisma.DonorBadgeUpdateManyWithWhereWithoutDonorInput | Prisma.DonorBadgeUpdateManyWithWhereWithoutDonorInput[]
+  deleteMany?: Prisma.DonorBadgeScalarWhereInput | Prisma.DonorBadgeScalarWhereInput[]
+}
+
 export type DonorBadgeCreateWithoutBadgeInput = {
   id?: string
-  donorId: string
   awardedAt?: Date | string
+  donor: Prisma.DonorProfileCreateNestedOneWithoutBadgesInput
 }
 
 export type DonorBadgeUncheckedCreateWithoutBadgeInput = {
@@ -391,6 +435,44 @@ export type DonorBadgeScalarWhereInput = {
   awardedAt?: Prisma.DateTimeFilter<"DonorBadge"> | Date | string
 }
 
+export type DonorBadgeCreateWithoutDonorInput = {
+  id?: string
+  awardedAt?: Date | string
+  badge: Prisma.BadgeCreateNestedOneWithoutDonorsInput
+}
+
+export type DonorBadgeUncheckedCreateWithoutDonorInput = {
+  id?: string
+  badgeId: string
+  awardedAt?: Date | string
+}
+
+export type DonorBadgeCreateOrConnectWithoutDonorInput = {
+  where: Prisma.DonorBadgeWhereUniqueInput
+  create: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput>
+}
+
+export type DonorBadgeCreateManyDonorInputEnvelope = {
+  data: Prisma.DonorBadgeCreateManyDonorInput | Prisma.DonorBadgeCreateManyDonorInput[]
+  skipDuplicates?: boolean
+}
+
+export type DonorBadgeUpsertWithWhereUniqueWithoutDonorInput = {
+  where: Prisma.DonorBadgeWhereUniqueInput
+  update: Prisma.XOR<Prisma.DonorBadgeUpdateWithoutDonorInput, Prisma.DonorBadgeUncheckedUpdateWithoutDonorInput>
+  create: Prisma.XOR<Prisma.DonorBadgeCreateWithoutDonorInput, Prisma.DonorBadgeUncheckedCreateWithoutDonorInput>
+}
+
+export type DonorBadgeUpdateWithWhereUniqueWithoutDonorInput = {
+  where: Prisma.DonorBadgeWhereUniqueInput
+  data: Prisma.XOR<Prisma.DonorBadgeUpdateWithoutDonorInput, Prisma.DonorBadgeUncheckedUpdateWithoutDonorInput>
+}
+
+export type DonorBadgeUpdateManyWithWhereWithoutDonorInput = {
+  where: Prisma.DonorBadgeScalarWhereInput
+  data: Prisma.XOR<Prisma.DonorBadgeUpdateManyMutationInput, Prisma.DonorBadgeUncheckedUpdateManyWithoutDonorInput>
+}
+
 export type DonorBadgeCreateManyBadgeInput = {
   id?: string
   donorId: string
@@ -399,8 +481,8 @@ export type DonorBadgeCreateManyBadgeInput = {
 
 export type DonorBadgeUpdateWithoutBadgeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  donorId?: Prisma.StringFieldUpdateOperationsInput | string
   awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donor?: Prisma.DonorProfileUpdateOneRequiredWithoutBadgesNestedInput
 }
 
 export type DonorBadgeUncheckedUpdateWithoutBadgeInput = {
@@ -415,6 +497,30 @@ export type DonorBadgeUncheckedUpdateManyWithoutBadgeInput = {
   awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type DonorBadgeCreateManyDonorInput = {
+  id?: string
+  badgeId: string
+  awardedAt?: Date | string
+}
+
+export type DonorBadgeUpdateWithoutDonorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  badge?: Prisma.BadgeUpdateOneRequiredWithoutDonorsNestedInput
+}
+
+export type DonorBadgeUncheckedUpdateWithoutDonorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeId?: Prisma.StringFieldUpdateOperationsInput | string
+  awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DonorBadgeUncheckedUpdateManyWithoutDonorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeId?: Prisma.StringFieldUpdateOperationsInput | string
+  awardedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type DonorBadgeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -422,6 +528,7 @@ export type DonorBadgeSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   donorId?: boolean
   badgeId?: boolean
   awardedAt?: boolean
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donorBadge"]>
 
@@ -430,6 +537,7 @@ export type DonorBadgeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   donorId?: boolean
   badgeId?: boolean
   awardedAt?: boolean
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donorBadge"]>
 
@@ -438,6 +546,7 @@ export type DonorBadgeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   donorId?: boolean
   badgeId?: boolean
   awardedAt?: boolean
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donorBadge"]>
 
@@ -450,18 +559,22 @@ export type DonorBadgeSelectScalar = {
 
 export type DonorBadgeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "donorId" | "badgeId" | "awardedAt", ExtArgs["result"]["donorBadge"]>
 export type DonorBadgeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }
 export type DonorBadgeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }
 export type DonorBadgeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  donor?: boolean | Prisma.DonorProfileDefaultArgs<ExtArgs>
   badge?: boolean | Prisma.BadgeDefaultArgs<ExtArgs>
 }
 
 export type $DonorBadgePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DonorBadge"
   objects: {
+    donor: Prisma.$DonorProfilePayload<ExtArgs>
     badge: Prisma.$BadgePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -863,6 +976,7 @@ readonly fields: DonorBadgeFieldRefs;
  */
 export interface Prisma__DonorBadgeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  donor<T extends Prisma.DonorProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DonorProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__DonorProfileClient<runtime.Types.Result.GetResult<Prisma.$DonorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   badge<T extends Prisma.BadgeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BadgeDefaultArgs<ExtArgs>>): Prisma.Prisma__BadgeClient<runtime.Types.Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

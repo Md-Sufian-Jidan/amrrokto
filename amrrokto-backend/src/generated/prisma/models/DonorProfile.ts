@@ -367,6 +367,7 @@ export type DonorProfileWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   donations?: Prisma.DonationHistoryListRelationFilter
   responses?: Prisma.DonorResponseListRelationFilter
+  badges?: Prisma.DonorBadgeListRelationFilter
 }
 
 export type DonorProfileOrderByWithRelationInput = {
@@ -395,6 +396,7 @@ export type DonorProfileOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   donations?: Prisma.DonationHistoryOrderByRelationAggregateInput
   responses?: Prisma.DonorResponseOrderByRelationAggregateInput
+  badges?: Prisma.DonorBadgeOrderByRelationAggregateInput
 }
 
 export type DonorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -426,6 +428,7 @@ export type DonorProfileWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   donations?: Prisma.DonationHistoryListRelationFilter
   responses?: Prisma.DonorResponseListRelationFilter
+  badges?: Prisma.DonorBadgeListRelationFilter
 }, "id" | "userId">
 
 export type DonorProfileOrderByWithAggregationInput = {
@@ -511,6 +514,7 @@ export type DonorProfileCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutDonorProfileInput
   donations?: Prisma.DonationHistoryCreateNestedManyWithoutDonorInput
   responses?: Prisma.DonorResponseCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileUncheckedCreateInput = {
@@ -538,6 +542,7 @@ export type DonorProfileUncheckedCreateInput = {
   linkedinUrl?: string | null
   donations?: Prisma.DonationHistoryUncheckedCreateNestedManyWithoutDonorInput
   responses?: Prisma.DonorResponseUncheckedCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeUncheckedCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileUpdateInput = {
@@ -565,6 +570,7 @@ export type DonorProfileUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutDonorProfileNestedInput
   donations?: Prisma.DonationHistoryUpdateManyWithoutDonorNestedInput
   responses?: Prisma.DonorResponseUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileUncheckedUpdateInput = {
@@ -592,6 +598,7 @@ export type DonorProfileUncheckedUpdateInput = {
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   donations?: Prisma.DonationHistoryUncheckedUpdateManyWithoutDonorNestedInput
   responses?: Prisma.DonorResponseUncheckedUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUncheckedUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileCreateManyInput = {
@@ -666,6 +673,11 @@ export type DonorProfileUncheckedUpdateManyInput = {
   twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type DonorProfileScalarRelationFilter = {
+  is?: Prisma.DonorProfileWhereInput
+  isNot?: Prisma.DonorProfileWhereInput
 }
 
 export type DonorProfileCountOrderByAggregateInput = {
@@ -757,14 +769,23 @@ export type DonorProfileSumOrderByAggregateInput = {
   points?: Prisma.SortOrder
 }
 
-export type DonorProfileScalarRelationFilter = {
-  is?: Prisma.DonorProfileWhereInput
-  isNot?: Prisma.DonorProfileWhereInput
-}
-
 export type DonorProfileNullableScalarRelationFilter = {
   is?: Prisma.DonorProfileWhereInput | null
   isNot?: Prisma.DonorProfileWhereInput | null
+}
+
+export type DonorProfileCreateNestedOneWithoutBadgesInput = {
+  create?: Prisma.XOR<Prisma.DonorProfileCreateWithoutBadgesInput, Prisma.DonorProfileUncheckedCreateWithoutBadgesInput>
+  connectOrCreate?: Prisma.DonorProfileCreateOrConnectWithoutBadgesInput
+  connect?: Prisma.DonorProfileWhereUniqueInput
+}
+
+export type DonorProfileUpdateOneRequiredWithoutBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorProfileCreateWithoutBadgesInput, Prisma.DonorProfileUncheckedCreateWithoutBadgesInput>
+  connectOrCreate?: Prisma.DonorProfileCreateOrConnectWithoutBadgesInput
+  upsert?: Prisma.DonorProfileUpsertWithoutBadgesInput
+  connect?: Prisma.DonorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DonorProfileUpdateToOneWithWhereWithoutBadgesInput, Prisma.DonorProfileUpdateWithoutBadgesInput>, Prisma.DonorProfileUncheckedUpdateWithoutBadgesInput>
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -831,6 +852,130 @@ export type DonorProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DonorProfileUpdateToOneWithWhereWithoutUserInput, Prisma.DonorProfileUpdateWithoutUserInput>, Prisma.DonorProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type DonorProfileCreateWithoutBadgesInput = {
+  id?: string
+  name: string
+  bloodGroup: $Enums.BloodGroup
+  division?: string | null
+  district?: string | null
+  thana?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  isAvailable?: boolean
+  lastDonationDate?: Date | string | null
+  totalDonations?: number
+  points?: number
+  address?: string | null
+  profileImage?: string | null
+  bio?: string | null
+  occupation?: string | null
+  isRare?: boolean
+  facebookUrl?: string | null
+  twitterUrl?: string | null
+  instagramUrl?: string | null
+  linkedinUrl?: string | null
+  user: Prisma.UserCreateNestedOneWithoutDonorProfileInput
+  donations?: Prisma.DonationHistoryCreateNestedManyWithoutDonorInput
+  responses?: Prisma.DonorResponseCreateNestedManyWithoutDonorInput
+}
+
+export type DonorProfileUncheckedCreateWithoutBadgesInput = {
+  id?: string
+  userId: string
+  name: string
+  bloodGroup: $Enums.BloodGroup
+  division?: string | null
+  district?: string | null
+  thana?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  isAvailable?: boolean
+  lastDonationDate?: Date | string | null
+  totalDonations?: number
+  points?: number
+  address?: string | null
+  profileImage?: string | null
+  bio?: string | null
+  occupation?: string | null
+  isRare?: boolean
+  facebookUrl?: string | null
+  twitterUrl?: string | null
+  instagramUrl?: string | null
+  linkedinUrl?: string | null
+  donations?: Prisma.DonationHistoryUncheckedCreateNestedManyWithoutDonorInput
+  responses?: Prisma.DonorResponseUncheckedCreateNestedManyWithoutDonorInput
+}
+
+export type DonorProfileCreateOrConnectWithoutBadgesInput = {
+  where: Prisma.DonorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DonorProfileCreateWithoutBadgesInput, Prisma.DonorProfileUncheckedCreateWithoutBadgesInput>
+}
+
+export type DonorProfileUpsertWithoutBadgesInput = {
+  update: Prisma.XOR<Prisma.DonorProfileUpdateWithoutBadgesInput, Prisma.DonorProfileUncheckedUpdateWithoutBadgesInput>
+  create: Prisma.XOR<Prisma.DonorProfileCreateWithoutBadgesInput, Prisma.DonorProfileUncheckedCreateWithoutBadgesInput>
+  where?: Prisma.DonorProfileWhereInput
+}
+
+export type DonorProfileUpdateToOneWithWhereWithoutBadgesInput = {
+  where?: Prisma.DonorProfileWhereInput
+  data: Prisma.XOR<Prisma.DonorProfileUpdateWithoutBadgesInput, Prisma.DonorProfileUncheckedUpdateWithoutBadgesInput>
+}
+
+export type DonorProfileUpdateWithoutBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thana?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastDonationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isRare?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutDonorProfileNestedInput
+  donations?: Prisma.DonationHistoryUpdateManyWithoutDonorNestedInput
+  responses?: Prisma.DonorResponseUpdateManyWithoutDonorNestedInput
+}
+
+export type DonorProfileUncheckedUpdateWithoutBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thana?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastDonationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  points?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isRare?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  donations?: Prisma.DonationHistoryUncheckedUpdateManyWithoutDonorNestedInput
+  responses?: Prisma.DonorResponseUncheckedUpdateManyWithoutDonorNestedInput
+}
+
 export type DonorProfileCreateWithoutDonationsInput = {
   id?: string
   name: string
@@ -855,6 +1000,7 @@ export type DonorProfileCreateWithoutDonationsInput = {
   linkedinUrl?: string | null
   user: Prisma.UserCreateNestedOneWithoutDonorProfileInput
   responses?: Prisma.DonorResponseCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileUncheckedCreateWithoutDonationsInput = {
@@ -881,6 +1027,7 @@ export type DonorProfileUncheckedCreateWithoutDonationsInput = {
   instagramUrl?: string | null
   linkedinUrl?: string | null
   responses?: Prisma.DonorResponseUncheckedCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeUncheckedCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileCreateOrConnectWithoutDonationsInput = {
@@ -923,6 +1070,7 @@ export type DonorProfileUpdateWithoutDonationsInput = {
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutDonorProfileNestedInput
   responses?: Prisma.DonorResponseUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileUncheckedUpdateWithoutDonationsInput = {
@@ -949,6 +1097,7 @@ export type DonorProfileUncheckedUpdateWithoutDonationsInput = {
   instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responses?: Prisma.DonorResponseUncheckedUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUncheckedUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileCreateWithoutResponsesInput = {
@@ -975,6 +1124,7 @@ export type DonorProfileCreateWithoutResponsesInput = {
   linkedinUrl?: string | null
   user: Prisma.UserCreateNestedOneWithoutDonorProfileInput
   donations?: Prisma.DonationHistoryCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileUncheckedCreateWithoutResponsesInput = {
@@ -1001,6 +1151,7 @@ export type DonorProfileUncheckedCreateWithoutResponsesInput = {
   instagramUrl?: string | null
   linkedinUrl?: string | null
   donations?: Prisma.DonationHistoryUncheckedCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeUncheckedCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileCreateOrConnectWithoutResponsesInput = {
@@ -1043,6 +1194,7 @@ export type DonorProfileUpdateWithoutResponsesInput = {
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutDonorProfileNestedInput
   donations?: Prisma.DonationHistoryUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileUncheckedUpdateWithoutResponsesInput = {
@@ -1069,6 +1221,7 @@ export type DonorProfileUncheckedUpdateWithoutResponsesInput = {
   instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   donations?: Prisma.DonationHistoryUncheckedUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUncheckedUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileCreateWithoutUserInput = {
@@ -1095,6 +1248,7 @@ export type DonorProfileCreateWithoutUserInput = {
   linkedinUrl?: string | null
   donations?: Prisma.DonationHistoryCreateNestedManyWithoutDonorInput
   responses?: Prisma.DonorResponseCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileUncheckedCreateWithoutUserInput = {
@@ -1121,6 +1275,7 @@ export type DonorProfileUncheckedCreateWithoutUserInput = {
   linkedinUrl?: string | null
   donations?: Prisma.DonationHistoryUncheckedCreateNestedManyWithoutDonorInput
   responses?: Prisma.DonorResponseUncheckedCreateNestedManyWithoutDonorInput
+  badges?: Prisma.DonorBadgeUncheckedCreateNestedManyWithoutDonorInput
 }
 
 export type DonorProfileCreateOrConnectWithoutUserInput = {
@@ -1163,6 +1318,7 @@ export type DonorProfileUpdateWithoutUserInput = {
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   donations?: Prisma.DonationHistoryUpdateManyWithoutDonorNestedInput
   responses?: Prisma.DonorResponseUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorProfileUncheckedUpdateWithoutUserInput = {
@@ -1189,6 +1345,7 @@ export type DonorProfileUncheckedUpdateWithoutUserInput = {
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   donations?: Prisma.DonationHistoryUncheckedUpdateManyWithoutDonorNestedInput
   responses?: Prisma.DonorResponseUncheckedUpdateManyWithoutDonorNestedInput
+  badges?: Prisma.DonorBadgeUncheckedUpdateManyWithoutDonorNestedInput
 }
 
 
@@ -1199,11 +1356,13 @@ export type DonorProfileUncheckedUpdateWithoutUserInput = {
 export type DonorProfileCountOutputType = {
   donations: number
   responses: number
+  badges: number
 }
 
 export type DonorProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   donations?: boolean | DonorProfileCountOutputTypeCountDonationsArgs
   responses?: boolean | DonorProfileCountOutputTypeCountResponsesArgs
+  badges?: boolean | DonorProfileCountOutputTypeCountBadgesArgs
 }
 
 /**
@@ -1228,6 +1387,13 @@ export type DonorProfileCountOutputTypeCountDonationsArgs<ExtArgs extends runtim
  */
 export type DonorProfileCountOutputTypeCountResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DonorResponseWhereInput
+}
+
+/**
+ * DonorProfileCountOutputType without action
+ */
+export type DonorProfileCountOutputTypeCountBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DonorBadgeWhereInput
 }
 
 
@@ -1257,6 +1423,7 @@ export type DonorProfileSelect<ExtArgs extends runtime.Types.Extensions.Internal
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   donations?: boolean | Prisma.DonorProfile$donationsArgs<ExtArgs>
   responses?: boolean | Prisma.DonorProfile$responsesArgs<ExtArgs>
+  badges?: boolean | Prisma.DonorProfile$badgesArgs<ExtArgs>
   _count?: boolean | Prisma.DonorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donorProfile"]>
 
@@ -1342,6 +1509,7 @@ export type DonorProfileInclude<ExtArgs extends runtime.Types.Extensions.Interna
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   donations?: boolean | Prisma.DonorProfile$donationsArgs<ExtArgs>
   responses?: boolean | Prisma.DonorProfile$responsesArgs<ExtArgs>
+  badges?: boolean | Prisma.DonorProfile$badgesArgs<ExtArgs>
   _count?: boolean | Prisma.DonorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DonorProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1357,6 +1525,7 @@ export type $DonorProfilePayload<ExtArgs extends runtime.Types.Extensions.Intern
     user: Prisma.$UserPayload<ExtArgs>
     donations: Prisma.$DonationHistoryPayload<ExtArgs>[]
     responses: Prisma.$DonorResponsePayload<ExtArgs>[]
+    badges: Prisma.$DonorBadgePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1778,6 +1947,7 @@ export interface Prisma__DonorProfileClient<T, Null = never, ExtArgs extends run
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   donations<T extends Prisma.DonorProfile$donationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DonorProfile$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonationHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   responses<T extends Prisma.DonorProfile$responsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DonorProfile$responsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonorResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  badges<T extends Prisma.DonorProfile$badgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DonorProfile$badgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonorBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2275,6 +2445,30 @@ export type DonorProfile$responsesArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.DonorResponseScalarFieldEnum | Prisma.DonorResponseScalarFieldEnum[]
+}
+
+/**
+ * DonorProfile.badges
+ */
+export type DonorProfile$badgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DonorBadge
+   */
+  select?: Prisma.DonorBadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DonorBadge
+   */
+  omit?: Prisma.DonorBadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorBadgeInclude<ExtArgs> | null
+  where?: Prisma.DonorBadgeWhereInput
+  orderBy?: Prisma.DonorBadgeOrderByWithRelationInput | Prisma.DonorBadgeOrderByWithRelationInput[]
+  cursor?: Prisma.DonorBadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DonorBadgeScalarFieldEnum | Prisma.DonorBadgeScalarFieldEnum[]
 }
 
 /**

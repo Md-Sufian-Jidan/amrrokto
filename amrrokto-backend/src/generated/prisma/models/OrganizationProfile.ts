@@ -40,7 +40,7 @@ export type OrganizationProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
   organizationName: string | null
-  type: string | null
+  type: $Enums.OrganizationType | null
   district: string | null
   contactPhone: string | null
   latitude: number | null
@@ -52,7 +52,7 @@ export type OrganizationProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   organizationName: string | null
-  type: string | null
+  type: $Enums.OrganizationType | null
   district: string | null
   contactPhone: string | null
   latitude: number | null
@@ -211,7 +211,7 @@ export type OrganizationProfileGroupByOutputType = {
   id: string
   userId: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude: number | null
@@ -246,7 +246,7 @@ export type OrganizationProfileWhereInput = {
   id?: Prisma.StringFilter<"OrganizationProfile"> | string
   userId?: Prisma.StringFilter<"OrganizationProfile"> | string
   organizationName?: Prisma.StringFilter<"OrganizationProfile"> | string
-  type?: Prisma.StringFilter<"OrganizationProfile"> | string
+  type?: Prisma.EnumOrganizationTypeFilter<"OrganizationProfile"> | $Enums.OrganizationType
   district?: Prisma.StringFilter<"OrganizationProfile"> | string
   contactPhone?: Prisma.StringFilter<"OrganizationProfile"> | string
   latitude?: Prisma.FloatNullableFilter<"OrganizationProfile"> | number | null
@@ -279,7 +279,7 @@ export type OrganizationProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.OrganizationProfileWhereInput[]
   NOT?: Prisma.OrganizationProfileWhereInput | Prisma.OrganizationProfileWhereInput[]
   organizationName?: Prisma.StringFilter<"OrganizationProfile"> | string
-  type?: Prisma.StringFilter<"OrganizationProfile"> | string
+  type?: Prisma.EnumOrganizationTypeFilter<"OrganizationProfile"> | $Enums.OrganizationType
   district?: Prisma.StringFilter<"OrganizationProfile"> | string
   contactPhone?: Prisma.StringFilter<"OrganizationProfile"> | string
   latitude?: Prisma.FloatNullableFilter<"OrganizationProfile"> | number | null
@@ -314,7 +314,7 @@ export type OrganizationProfileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
   organizationName?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
-  type?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
+  type?: Prisma.EnumOrganizationTypeWithAggregatesFilter<"OrganizationProfile"> | $Enums.OrganizationType
   district?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
   contactPhone?: Prisma.StringWithAggregatesFilter<"OrganizationProfile"> | string
   latitude?: Prisma.FloatNullableWithAggregatesFilter<"OrganizationProfile"> | number | null
@@ -325,7 +325,7 @@ export type OrganizationProfileScalarWhereWithAggregatesInput = {
 export type OrganizationProfileCreateInput = {
   id?: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -340,7 +340,7 @@ export type OrganizationProfileUncheckedCreateInput = {
   id?: string
   userId: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -353,7 +353,7 @@ export type OrganizationProfileUncheckedCreateInput = {
 export type OrganizationProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -368,7 +368,7 @@ export type OrganizationProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -382,7 +382,7 @@ export type OrganizationProfileCreateManyInput = {
   id?: string
   userId: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -393,7 +393,7 @@ export type OrganizationProfileCreateManyInput = {
 export type OrganizationProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -405,7 +405,7 @@ export type OrganizationProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -531,10 +531,14 @@ export type OrganizationProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationProfileUpdateToOneWithWhereWithoutUserInput, Prisma.OrganizationProfileUpdateWithoutUserInput>, Prisma.OrganizationProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type EnumOrganizationTypeFieldUpdateOperationsInput = {
+  set?: $Enums.OrganizationType
+}
+
 export type OrganizationProfileCreateWithoutRequestsInput = {
   id?: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -548,7 +552,7 @@ export type OrganizationProfileUncheckedCreateWithoutRequestsInput = {
   id?: string
   userId: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -576,7 +580,7 @@ export type OrganizationProfileUpdateToOneWithWhereWithoutRequestsInput = {
 export type OrganizationProfileUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -590,7 +594,7 @@ export type OrganizationProfileUncheckedUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -602,7 +606,7 @@ export type OrganizationProfileUncheckedUpdateWithoutRequestsInput = {
 export type OrganizationProfileCreateWithoutInventoryInput = {
   id?: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -616,7 +620,7 @@ export type OrganizationProfileUncheckedCreateWithoutInventoryInput = {
   id?: string
   userId: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -644,7 +648,7 @@ export type OrganizationProfileUpdateToOneWithWhereWithoutInventoryInput = {
 export type OrganizationProfileUpdateWithoutInventoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -658,7 +662,7 @@ export type OrganizationProfileUncheckedUpdateWithoutInventoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -670,7 +674,7 @@ export type OrganizationProfileUncheckedUpdateWithoutInventoryInput = {
 export type OrganizationProfileCreateWithoutUserInput = {
   id?: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -683,7 +687,7 @@ export type OrganizationProfileCreateWithoutUserInput = {
 export type OrganizationProfileUncheckedCreateWithoutUserInput = {
   id?: string
   organizationName: string
-  type: string
+  type: $Enums.OrganizationType
   district: string
   contactPhone: string
   latitude?: number | null
@@ -712,7 +716,7 @@ export type OrganizationProfileUpdateToOneWithWhereWithoutUserInput = {
 export type OrganizationProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -725,7 +729,7 @@ export type OrganizationProfileUpdateWithoutUserInput = {
 export type OrganizationProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumOrganizationTypeFieldUpdateOperationsInput | $Enums.OrganizationType
   district?: Prisma.StringFieldUpdateOperationsInput | string
   contactPhone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -854,7 +858,7 @@ export type $OrganizationProfilePayload<ExtArgs extends runtime.Types.Extensions
     id: string
     userId: string
     organizationName: string
-    type: string
+    type: $Enums.OrganizationType
     district: string
     contactPhone: string
     latitude: number | null
@@ -1289,7 +1293,7 @@ export interface OrganizationProfileFieldRefs {
   readonly id: Prisma.FieldRef<"OrganizationProfile", 'String'>
   readonly userId: Prisma.FieldRef<"OrganizationProfile", 'String'>
   readonly organizationName: Prisma.FieldRef<"OrganizationProfile", 'String'>
-  readonly type: Prisma.FieldRef<"OrganizationProfile", 'String'>
+  readonly type: Prisma.FieldRef<"OrganizationProfile", 'OrganizationType'>
   readonly district: Prisma.FieldRef<"OrganizationProfile", 'String'>
   readonly contactPhone: Prisma.FieldRef<"OrganizationProfile", 'String'>
   readonly latitude: Prisma.FieldRef<"OrganizationProfile", 'Float'>

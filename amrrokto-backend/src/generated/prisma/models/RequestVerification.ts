@@ -233,7 +233,7 @@ export type RequestVerificationScalarWhereWithAggregatesInput = {
 
 export type RequestVerificationCreateInput = {
   id?: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
   request: Prisma.BloodRequestCreateNestedOneWithoutVerificationsInput
   admin: Prisma.UserCreateNestedOneWithoutVerifiedRequestsInput
@@ -243,7 +243,7 @@ export type RequestVerificationUncheckedCreateInput = {
   id?: string
   requestId: string
   verifiedBy: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 
@@ -267,7 +267,7 @@ export type RequestVerificationCreateManyInput = {
   id?: string
   requestId: string
   verifiedBy: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 
@@ -405,7 +405,7 @@ export type RequestVerificationUncheckedUpdateManyWithoutAdminNestedInput = {
 
 export type RequestVerificationCreateWithoutRequestInput = {
   id?: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
   admin: Prisma.UserCreateNestedOneWithoutVerifiedRequestsInput
 }
@@ -413,7 +413,7 @@ export type RequestVerificationCreateWithoutRequestInput = {
 export type RequestVerificationUncheckedCreateWithoutRequestInput = {
   id?: string
   verifiedBy: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 
@@ -456,7 +456,7 @@ export type RequestVerificationScalarWhereInput = {
 
 export type RequestVerificationCreateWithoutAdminInput = {
   id?: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
   request: Prisma.BloodRequestCreateNestedOneWithoutVerificationsInput
 }
@@ -464,7 +464,7 @@ export type RequestVerificationCreateWithoutAdminInput = {
 export type RequestVerificationUncheckedCreateWithoutAdminInput = {
   id?: string
   requestId: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 
@@ -497,7 +497,7 @@ export type RequestVerificationUpdateManyWithWhereWithoutAdminInput = {
 export type RequestVerificationCreateManyRequestInput = {
   id?: string
   verifiedBy: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 
@@ -525,7 +525,7 @@ export type RequestVerificationUncheckedUpdateManyWithoutRequestInput = {
 export type RequestVerificationCreateManyAdminInput = {
   id?: string
   requestId: string
-  verifiedAt: Date | string
+  verifiedAt?: Date | string
   notes?: string | null
 }
 

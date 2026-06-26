@@ -1,16 +1,17 @@
 import { Server } from 'http';
 import app from './app';
+import { prisma } from './app/lib/prisma';
+import { env } from './app/config/env';
 
 let server: Server;
 
 async function main() {
   try {
-    // Prisma connects automatically on first query, but we can explicitly connect
     await prisma.$connect();
-    // console.log('🗃️  Database connected successfully');
+    console.log('🗃️  Database connected successfully');
 
-    server = app.listen(env.port, () => {
-      // console.log(`🚀 Server is listening on port ${env.port}`);
+    server = app.listen(env.PORT, () => {
+      console.log(`🚀 Server is listening on port ${env.PORT}`);
     });
   } catch (err) {
     console.error('❌ Failed to start server:', err);

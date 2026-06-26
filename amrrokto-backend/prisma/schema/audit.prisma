@@ -10,7 +10,7 @@ model SystemConfig {
 }
 
 model AuditLog {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   actorId   String
   action    String   // "CREATE" | "UPDATE" | "DELETE" | "BAN" | "VERIFY" | "CONFIG_CHANGE"
   entity    String   // "USER" | "MANAGER" | "REQUEST" | "REWARD" | "BADGE" | "CONFIG"

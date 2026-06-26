@@ -1,63 +1,64 @@
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  phone String @unique
+  id       String @id @default(uuid())
+  email    String @unique
+  phone    String @unique
   password String
-  role Role
+  role     Role
 
   isVerified Boolean @default(false)
-  isActive Boolean @default(true)
+  isActive   Boolean @default(true)
 
-  donorProfile DonorProfile?
-  seekerProfile SeekerProfile?
+  donorProfile        DonorProfile?
+  seekerProfile       SeekerProfile?
   organizationProfile OrganizationProfile?
 
-  notifications Notification[]
+  notifications         Notification[]
   verificationDocuments VerificationDocument[]
-  auditLogs AuditLog[]
-  verifiedRequests RequestVerification[]
+  auditLogs             AuditLog[]
+  verifiedRequests      RequestVerification[]
 
-  sentMessages Message[] @relation("SentMessages")
-receivedMessages Message[] @relation("ReceivedMessages")
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model SeekerProfile {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
   userId String @unique
-  name String
-  
+  name   String
+
   division String?
   district String?
-  thana String?
+  thana    String?
 
-  latitude Float?
+  latitude  Float?
   longitude Float?
 
   totalRequests Int @default(0)
 
-  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   requests BloodRequest[]
 }
 
 model OrganizationProfile {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
   userId String @unique
 
   organizationName String
-  type String
-  district String
-  contactPhone String
-  
-  latitude Float?
+  type OrganizationType
+  district         String
+  contactPhone     String
+
+  latitude  Float?
   longitude Float?
 
-  isVerified Boolean @default(false)
-  user User @relation(fields:[userId], references:[id])
-  requests BloodRequest[]
-  inventory BloodInventory[]
+  isVerified Boolean          @default(false)
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  requests   BloodRequest[]
+  inventory  BloodInventory[]
   // members OrgMember[]
 }

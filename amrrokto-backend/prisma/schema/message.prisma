@@ -1,25 +1,16 @@
 model Message {
-
   id String @id @default(uuid())
-
   senderId String
-
   receiverId String
-
   content String
-
   isRead Boolean @default(false)
-
   isEmergency Boolean @default(false)
-
   createdAt DateTime @default(now())
 
   sender User @relation("SentMessages", fields:[senderId], references:[id], onDelete:Cascade)
-
   receiver User @relation("ReceivedMessages", fields:[receiverId], references:[id], onDelete:Cascade)
 
   @@index([senderId])
-
   @@index([receiverId])
 
 }
