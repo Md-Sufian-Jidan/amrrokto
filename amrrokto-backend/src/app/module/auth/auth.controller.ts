@@ -57,6 +57,7 @@ const logout = () => catchAsync(async (req: Request, res: Response) => {
 })
 
 const registerUser = () => catchAsync(async (req: Request, res: Response) => {
+    console.log('api hitting from auth controller.')
     const payload = registerSchema.parse(req.body)
     const response = await AuthService.registerUser(payload);
     sendResponse(res, {
@@ -79,7 +80,7 @@ const loginUser = () => catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMe = () => catchAsync(async (req: Request, res: Response) => {
-    const response = await AuthService.getMe(req.user.userId);
+    const response = await AuthService.getMe(req.user?.userId as string);
     sendResponse(res, {
         success: true,
         statusCode: status.OK,

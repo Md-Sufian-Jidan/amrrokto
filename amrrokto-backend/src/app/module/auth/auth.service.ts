@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import type { RegisterInput, LoginInput } from './auth.validation';
 import { env } from '../../config/env';
 import AppError from '../../errors/AppError';
 import status from 'http-status';
 import { prisma } from '../../lib/prisma';
+import { sendEmail } from '../../utils/sendEmail';
+import type { RegisterPayload, LoginPayload } from './auth.validation';
 
 type UserWithProfiles = {
   role: string;
@@ -32,57 +33,57 @@ export const generateTokens = (userId: string, role: string, email: string) => {
 };
 
 export const normalizePhone = (phone: string): string => {
-    const clean = phone.replace(/\D/g, '');
-    return clean.startsWith('88') ? `+${clean}` : `+88${clean}`;
+  const clean = phone.replace(/\D/g, '');
+  return clean.startsWith('88') ? `+${clean}` : `+88${clean}`;
 };
 
 const checkPhone = async (phone: string) => {
-    if (!phone) throw new AppError(status.NOT_FOUND, 'Phone number is required');
+  if (!phone) throw new AppError(status.NOT_FOUND, 'Phone number is required');
 
-    const normalizedPhone = normalizePhone(phone);
+  const normalizedPhone = normalizePhone(phone);
 
-    const existing = await prisma.user.findUnique({
-        where: { phone: normalizedPhone },
-        select: {
-            email: true,
-            role: true,
-            donorProfile: {
-                select: { name: true, bloodGroup: true, division: true, district: true, thana: true },
-            },
-            seekerProfile: {
-                select: { name: true, district: true },
-            },
-            organizationProfile: {
-                select: { organizationName: true, type: true, district: true },
-            },
-        },
-    });
+  const existing = await prisma.user.findUnique({
+    where: { phone: normalizedPhone },
+    select: {
+      email: true,
+      role: true,
+      donorProfile: {
+        select: { name: true, bloodGroup: true, division: true, district: true, thana: true },
+      },
+      seekerProfile: {
+        select: { name: true, district: true },
+      },
+      organizationProfile: {
+        select: { organizationName: true, type: true, district: true },
+      },
+    },
+  });
 
-    if (!existing) return { status: 'available' };
+  if (!existing) return { status: 'available' };
 
-    // Legacy seeded-user merge path
-    if (existing.email.endsWith('@roktolagbe.com')) {
-        let profileData: Record<string, unknown> = {};
+  // Legacy seeded-user merge path
+  if (existing.email.endsWith('@roktolagbe.com')) {
+    let profileData: Record<string, unknown> = {};
 
-        if (existing.role === 'DONOR' && existing.donorProfile) {
-            const { name, bloodGroup, division, district, thana } = existing.donorProfile;
-            profileData = { name, bloodGroup, division, district, thana };
-        } else if (existing.role === 'BLOOD_SEEKER' && existing.seekerProfile) {
-            const { name, district } = existing.seekerProfile;
-            profileData = { name, district };
-        } else if (existing.role === 'ORGANIZATION' && existing.organizationProfile) {
-            const { organizationName, type, district } = existing.organizationProfile;
-            profileData = { name: organizationName, type, district };
-        }
-
-        return {
-            status: 'mergeable',
-            message: 'Hero detected! Join now to merge your legacy records.',
-            data: profileData,
-        };
+    if (existing.role === 'DONOR' && existing.donorProfile) {
+      const { name, bloodGroup, division, district, thana } = existing.donorProfile;
+      profileData = { name, bloodGroup, division, district, thana };
+    } else if (existing.role === 'BLOOD_SEEKER' && existing.seekerProfile) {
+      const { name, district } = existing.seekerProfile;
+      profileData = { name, district };
+    } else if (existing.role === 'ORGANIZATION' && existing.organizationProfile) {
+      const { organizationName, type, district } = existing.organizationProfile;
+      profileData = { name: organizationName, type, district };
     }
 
-    return { status: 'taken', message: 'Phone number already registered' };
+    return {
+      status: 'mergeable',
+      message: 'Hero detected! Join now to merge your legacy records.',
+      data: profileData,
+    };
+  }
+
+  return { status: 'taken', message: 'Phone number already registered' };
 };
 
 const getProfileSummary = (user: UserWithProfiles) => {
@@ -113,9 +114,16 @@ const getProfileSummary = (user: UserWithProfiles) => {
   }
 };
 
-const registerUser = async (payload: RegisterInput) => {
-  const existingEmail = await prisma.user.findUnique({ where: { email: payload.email } });
-  if (existingEmail) throw new AppError(status.CONFLICT, 'Email already registered');
+const registerUser = async (payload: RegisterPayload) => {
+  console.log('api hitting from auth service.')
+  const existingEmail = await prisma.user.findUnique({
+    where: {
+      email: payload.email
+    }
+  });
+  if (existingEmail) {
+    throw new AppError(status.CONFLICT, 'Email already registered');
+  }
 
   const normalizedPhone = normalizePhone(payload.phone);
   const hashedPassword = await bcrypt.hash(payload.password, 12);
@@ -128,7 +136,6 @@ const registerUser = async (payload: RegisterInput) => {
   let userId: string;
 
   if (existingPhone) {
-    // Only allow claiming a seeded (dummy-email) account
     if (!existingPhone.email.endsWith('@roktolagbe.com')) {
       throw new AppError(status.CONFLICT, 'Phone number already registered to another account');
     }
@@ -158,25 +165,24 @@ const registerUser = async (payload: RegisterInput) => {
     userId = created.id;
   }
 
-  // Send verification email (token is not persisted — link carries userId for lookup)
   const verifyToken = crypto.randomBytes(32).toString('hex');
   const verifyLink = `${env.FRONTEND_URL}/verify-email?token=${verifyToken}&id=${userId}`;
 
   let emailSent = true;
   try {
-    // await sendEmail({
-    //   to: payload.email,
-    //   subject: '✅ Verify your RoktoLagbe account',
-    //   html: `
-    //     <h2>Welcome to AmrRokto! 🩸</h2>
-    //     <p>Please verify your email address to activate your account.</p>
-    //     <a href="${verifyLink}"
-    //        style="background:#e53e3e;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">
-    //       Verify Email
-    //     </a>
-    //     <p>Link expires in 24 hours.</p>
-    //   `,
-    // });
+    await sendEmail({
+      to: payload.email,
+      subject: '✅ Verify your AmrRokto account',
+      html: `
+        <h2>Welcome to AmrRokto! 🩸</h2>
+        <p>Please verify your email address to activate your account.</p>
+        <a href="${verifyLink}"
+           style="background:#e53e3e;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">
+          Verify Email
+        </a>
+        <p>Link expires in 24 hours.</p>
+      `,
+    });
   } catch (error) {
     console.error('Failed to send verification email:', error);
     emailSent = false;
@@ -210,7 +216,7 @@ const verifyEmail = async (token: string, userId: string) => {
   return { message: 'Email verified successfully! You can now access your hero dashboard.' };
 };
 
-const loginUser = async (payload: LoginInput) => {
+const loginUser = async (payload: LoginPayload) => {
   const user = await prisma.user.findUnique({
     where: { email: payload.email },
     include: {
@@ -307,7 +313,7 @@ const getMe = async (userId: string) => {
   };
 };
 
-function buildProfileUpsert(payload: RegisterInput, mode: 'create' | 'upsert') {
+function buildProfileUpsert(payload: RegisterPayload, mode: 'create' | 'upsert') {
   if (payload.role === 'DONOR') {
     const data = {
       name: payload.name!,

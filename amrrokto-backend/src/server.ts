@@ -22,7 +22,6 @@ async function main() {
 
 main();
 
-// Graceful shutdown handlers
 process.on('unhandledRejection', async (err) => {
   // console.log(`😈 Unhandled Rejection detected, shutting down...`, err);
   if (server) {
@@ -42,7 +41,6 @@ process.on('uncaughtException', async (err) => {
   process.exit(1);
 });
 
-// Handle SIGTERM (e.g., from Docker or cloud platforms)
 process.on('SIGTERM', async () => {
   // console.log('🛑 SIGTERM received, shutting down gracefully...');
   if (server) {
@@ -54,7 +52,6 @@ process.on('SIGTERM', async () => {
   }
 });
 
-// Handle SIGINT (Ctrl+C)
 process.on('SIGINT', async () => {
   // console.log('🛑 SIGINT received, shutting down gracefully...');
   if (server) {

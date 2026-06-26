@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import AppError from '../errors/AppError';
+import status from 'http-status';
 
 dotenv.config();
 
@@ -17,13 +19,14 @@ interface EnvVars {
         SMTP_FROM: string;
     };
     JWT_SECRET: string;
-    JWT_EXPIRES_IN:string;
-    JWT_REFRESH_SECRET:string;
-    JWT_REFRESH_EXPIRES_IN:string
+    JWT_EXPIRES_IN: string;
+    JWT_REFRESH_SECRET: string;
+    JWT_REFRESH_EXPIRES_IN: string;
 };
 
 const loadEnv = (): EnvVars => {
     const requiredVars = [
+        'PORT',
         'DATABASE_URL',
         'NODE_ENV',
         'ADMIN_PASSWORD',
@@ -48,11 +51,11 @@ const loadEnv = (): EnvVars => {
     });
 
     if (missingVars.length > 0) {
-        console.error('❌ Missing critical environment variables:', missingVars.join(', '));
+        throw new AppError(status.NOT_FOUND, `❌ Missing critical environment variables:, ${missingVars.join(', ')}`)
     }
 
     return {
-        PORT: process.env.PORT || '7000',
+        PORT: process.env.PORT!,
         DATABASE_URL: process.env.DATABASE_URL!,
         NODE_ENV: process.env.NODE_ENV!,
         ADMIN_PASSWORD: process.env.ADMIN_PASSWORD!,
