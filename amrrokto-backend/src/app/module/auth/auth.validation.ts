@@ -4,10 +4,8 @@ import { bloodGroups, organizationTypes } from '../../utils/helpers';
 export const registerSchema = z
     .object({
         email: z.string().email(),
-        // phone is now required (non-nullable in User model)
         phone: z.string().min(1, 'Phone number is required'),
         password: z.string().min(8, 'Password must be at least 8 characters'),
-        // ADMIN is not self-registerable
         role: z.enum(['DONOR', 'BLOOD_SEEKER', 'ORGANIZATION']),
         division: z.string().optional(),
         district: z.string().optional(),
