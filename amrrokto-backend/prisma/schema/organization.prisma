@@ -1,0 +1,12 @@
+// model OrgMember {
+//   id String @id @default(uuid())
+//   organizationId String
+//   donorId String
+//   joinedAt DateTime @default(now())
+
+//   organization OrganizationProfile @relation(fields:[organizationId], references:[id], onDelete:Cascade)
+//   donor DonorProfile @relation(fields:[donorId], references:[id], onDelete:Cascade)
+
+//   @@unique([organizationId, donorId])
+
+// }

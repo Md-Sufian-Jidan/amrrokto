@@ -1,0 +1,28 @@
+model Badge {
+  id String @id @default(uuid())
+  name String
+  description String
+  icon String
+  category String
+  createdAt DateTime @default(now())
+
+  donors DonorBadge[]
+}
+
+model DonorBadge {
+
+  id String @id @default(uuid())
+
+  donorId String
+
+  badgeId String
+
+  awardedAt DateTime @default(now())
+
+//   donor DonorProfile @relation(fields:[donorId], references:[id], onDelete:Cascade)
+
+  badge Badge     @relation(fields:[badgeId], references:[id], onDelete:Cascade)
+
+  @@unique([donorId,badgeId])
+
+}

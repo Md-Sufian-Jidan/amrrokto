@@ -1,0 +1,70 @@
+model BloodRequest {
+  id String @id @default(uuid())
+  bloodGroup BloodGroup
+  units Int
+  division String?
+  district String
+  thana String?
+  urgency Urgency @default(NORMAL)
+  deadline DateTime
+  notes String?
+
+  patientName String?
+  patientAge String?
+  patientGender String?
+  patientCondition String?
+  relationship String?
+  hemoglobin String?
+  hospitalName String
+  detailedAddress String?
+  contactPhone String?
+
+  latitude Float?
+  longitude Float?
+
+  isEmergency Boolean @default(false)
+  status RequestStatus @default(OPEN)
+  seekerId String?
+  organizationId String?
+
+  seeker SeekerProfile? @relation(fields:[seekerId], references:[id], onDelete:Cascade)
+
+  organization OrganizationProfile? @relation(fields:[organizationId], references:[id], onDelete:Cascade)
+
+  donations DonationHistory[]
+  responses DonorResponse[]
+  broadcasts AlertBroadcast[]
+  verifications RequestVerification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bloodGroup,district,thana,status])
+  @@index([urgency,status])
+}
+
+model RequestVerification {
+  id String @id @default(uuid())
+  requestId String
+  verifiedBy String
+  verifiedAt DateTime
+  notes String?
+
+  request BloodRequest @relation(fields:[requestId], references:[id], onDelete:Cascade)
+  admin User @relation(fields:[verifiedBy], references:[id], onDelete:Cascade)
+  
+  @@index([requestId])
+}
+
+model AlertBroadcast {
+  id String @id @default(uuid())
+  requestId String
+  donorCount Int
+  smsSent Int
+  pushSent Int
+  createdAt DateTime @default(now())
+
+  request BloodRequest @relation(fields:[requestId], references:[id], onDelete:Cascade)
+
+  @@index([requestId])
+}

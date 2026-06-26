@@ -1,0 +1,17 @@
+model VerificationDocument {
+  id String @id @default(uuid())
+
+  userId String
+
+  type String
+  fileUrl String
+
+  verified Boolean @default(false)
+  verifiedAt DateTime?
+
+  uploadedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

@@ -1,0 +1,29 @@
+// model Reward {
+//   id          String   @id @default(uuid())
+//   title       String
+//   description String
+//   pointsCost  Int
+//   category    String   // "Food" | "Health" | "Ecommerce"
+//   imageUrl    String?
+//   totalStock  Int      @default(0)
+//   isActive    Boolean  @default(true)
+//   createdAt   DateTime @default(now())
+  
+//   organizationId   String?
+//   organization OrganizationProfile @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+//   redeemedBy  RedeemedReward[]
+// }
+
+// model RedeemedReward {
+//   id           String   @id @default(uuid())
+//   userId       String
+//   rewardId     String
+//   voucherCode  String   @unique
+//   isUsed       Boolean  @default(false)
+//   redeemedAt   DateTime @default(now())
+
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   reward Reward @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+
+//   @@index([userId])
+// }

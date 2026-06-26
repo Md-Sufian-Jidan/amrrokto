@@ -1,0 +1,24 @@
+model SystemConfig {
+  id                String   @id @default("singleton")
+  globalAlertActive Boolean  @default(false)
+  globalAlertTitle  String?
+  globalAlertMessage String?
+  globalAlertType   String   @default("INFO") // INFO | WARNING | EMERGENCY
+  maintenanceMode   Boolean  @default(false)
+  apiVersion        String   @default("1.4.2")
+  updatedAt         DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String   // "CREATE" | "UPDATE" | "DELETE" | "BAN" | "VERIFY" | "CONFIG_CHANGE"
+  entity    String   // "USER" | "MANAGER" | "REQUEST" | "REWARD" | "BADGE" | "CONFIG"
+  entityId  String?
+  details   Json?
+  createdAt DateTime @default(now())
+
+  actor     User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+
+  @@index([actorId, action, entity])
+}

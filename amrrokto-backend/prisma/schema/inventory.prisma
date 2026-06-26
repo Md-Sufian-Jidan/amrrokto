@@ -1,0 +1,11 @@
+model BloodInventory {
+  id        String     @id @default(uuid())
+  organizationId String
+  group     BloodGroup
+  units     Int        @default(0)
+  updatedAt DateTime   @updatedAt
+
+  organization OrganizationProfile @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, group])
+}

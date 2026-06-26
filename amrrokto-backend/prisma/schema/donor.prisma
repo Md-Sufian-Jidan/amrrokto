@@ -1,0 +1,69 @@
+model DonorProfile {
+  id String @id @default(uuid())
+  userId String @unique
+  name String
+  bloodGroup BloodGroup
+  division String?
+  district String?
+  thana String?
+
+  latitude Float?
+  longitude Float?
+
+  isAvailable Boolean @default(true)
+  lastDonationDate DateTime?
+  totalDonations Int @default(0)
+  points Int @default(0)
+  address String?
+  profileImage String?
+  bio String?
+  occupation String?
+  isRare Boolean @default(false)
+
+  facebookUrl String?
+  twitterUrl String?
+  instagramUrl String?
+  linkedinUrl String?
+
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+
+  donations DonationHistory[]
+  responses DonorResponse[]
+
+  @@index([bloodGroup,district,thana,isAvailable])
+}
+
+model DonationHistory {
+  id String @id @default(uuid())
+  donorId String
+  requestId String?
+
+  status DonationStatus @default(COMMITTED)
+  donatedAt DateTime @default(now())
+  pointsEarned Int @default(0)
+  imagePath String?
+  cardPath String?
+  notes String?
+
+  donor DonorProfile @relation(fields:[donorId], references:[id], onDelete:Cascade)
+
+  request BloodRequest? @relation(fields:[requestId], references:[id], onDelete:Cascade)
+
+  @@index([donorId])
+}
+
+model DonorResponse {
+  id String @id @default(uuid())
+  donorId String
+  requestId String
+
+  status ResponseStatus @default(PENDING)
+  acceptedAt DateTime?
+  completedAt DateTime?
+
+  donor DonorProfile @relation(fields:[donorId], references:[id], onDelete:Cascade)
+
+  request BloodRequest @relation(fields:[requestId], references:[id], onDelete:Cascade)
+
+  @@unique([donorId,requestId])
+}
